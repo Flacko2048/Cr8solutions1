@@ -28,7 +28,7 @@ export function Footer({ onBookingClick }: FooterProps) {
     }
   };
 
-  const handleNewsletterSubmit = async (e: React.FormEvent) => {
+  const handleNewsletterSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!email) return;
 
@@ -36,13 +36,12 @@ export function Footer({ onBookingClick }: FooterProps) {
     setSubmitStatus('idle');
 
     try {
+      const formData = new FormData(e.currentTarget);
+      
       const response = await fetch('/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: new URLSearchParams({
-          'form-name': 'newsletter',
-          'email': email
-        }).toString()
+        body: new URLSearchParams(formData as any).toString()
       });
 
       if (response.ok) {
