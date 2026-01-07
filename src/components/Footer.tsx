@@ -1,4 +1,4 @@
-import { Facebook, Instagram, Linkedin } from 'lucide-react';
+import { Facebook, Linkedin } from 'lucide-react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { Logo } from './Logo';
 import { useState } from 'react';
@@ -47,11 +47,8 @@ export function Footer({ onBookingClick }: FooterProps) {
               Stop guessing and start growing with custom solutions tailored to your specific business problem.
             </p>
             <div className="flex gap-3">
-              <a href="#" className="w-9 h-9 bg-gray-800 rounded-full flex items-center justify-center hover:bg-blue-600 hover:text-white transition-all">
+              <a href="https://www.facebook.com/profile.php?id=61585889685893" target="_blank" rel="noopener noreferrer" className="w-9 h-9 bg-gray-800 rounded-full flex items-center justify-center hover:bg-blue-600 hover:text-white transition-all">
                 <Facebook className="w-4 h-4" />
-              </a>
-              <a href="#" className="w-9 h-9 bg-gray-800 rounded-full flex items-center justify-center hover:bg-blue-600 hover:text-white transition-all">
-                <Instagram className="w-4 h-4" />
               </a>
               <a href="https://www.linkedin.com/company/cr8solutions" target="_blank" rel="noopener noreferrer" className="w-9 h-9 bg-gray-800 rounded-full flex items-center justify-center hover:bg-blue-600 hover:text-white transition-all">
                 <Linkedin className="w-4 h-4" />

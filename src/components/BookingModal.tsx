@@ -152,7 +152,7 @@ export function BookingModal({ isOpen, onClose }: BookingModalProps) {
                         Website <span className="text-red-500">*</span>
                       </label>
                       <input
-                        type="url"
+                        type="text"
                         id="website"
                         name="website"
                         value={formData.website}
