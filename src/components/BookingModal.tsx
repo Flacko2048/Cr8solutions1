@@ -90,14 +90,12 @@ export function BookingModal({ isOpen, onClose }: BookingModalProps) {
               <div className="grid md:grid-cols-2">
                 {/* Left Column - Heading */}
                 <div className="bg-gray-50 p-8 lg:p-12 flex flex-col justify-start space-y-8">
-                  <div>
-                    <ImageWithFallback
-                      src={logoImage}
-                      fallback={logoFallback}
-                      alt="CR8 Solutions"
-                      className="h-32 w-auto object-contain" 
-                    />
-                  </div>
+                  <ImageWithFallback
+                    src={logoImage}
+                    fallback={logoFallback}
+                    alt="Logo"
+                    className="w-24 h-24"
+                  />
                   
                   <div>
                     <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 leading-tight mb-6">

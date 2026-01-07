@@ -46,8 +46,8 @@ export function Footer({ onBookingClick }: FooterProps) {
                <ImageWithFallback
                  src={logoImage}
                  fallback={logoFallback}
-                 alt="CR8 Solutions"
-                 className="h-24 w-auto object-contain brightness-0 invert"
+                 alt="Cr8solutions Logo"
+                 className="w-32 h-32"
                />
             </div>
             <p className="text-gray-400 mb-4 leading-relaxed text-sm">

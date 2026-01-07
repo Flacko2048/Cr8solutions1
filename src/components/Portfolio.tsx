@@ -108,7 +108,6 @@ export function Portfolio({ onBookingClick }: PortfolioProps) {
                 <ImageWithFallback
                   src={logoImage}
                   fallback={logoFallback}
-                  alt="CR8 Solutions"
                   className="h-32 w-auto object-contain"
                 />
               </div>

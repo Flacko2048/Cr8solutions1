@@ -63,14 +63,13 @@ export function Header({ onBookingClick }: HeaderProps) {
     >
       <nav className="container mx-auto px-4">
         <div className="flex items-center justify-between bg-[rgba(0,0,0,0)]">
-          <div className="flex items-center gap-2 cursor-pointer" onClick={handleLogoClick}>
-            <ImageWithFallback
-              src={logoImage}
-              fallback={logoFallback}
-              alt="CR8 Solutions"
-              className="h-28 sm:h-32 md:h-40 w-auto object-contain"
-            />
-          </div>
+          <ImageWithFallback
+            src={logoImage}
+            fallback={logoFallback}
+            alt="CR8 Solutions"
+            className="h-28 sm:h-32 md:h-40 w-auto object-contain cursor-pointer"
+            onClick={handleLogoClick}
+          />
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-8">
