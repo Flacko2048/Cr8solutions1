@@ -19,8 +19,6 @@ export function BookingModal({ isOpen, onClose }: BookingModalProps) {
     currentProblem: '',
     solveBy: ''
   });
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
 
   // Close modal on escape key
   useEffect(() => {
@@ -49,44 +47,12 @@ export function BookingModal({ isOpen, onClose }: BookingModalProps) {
     });
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSubmitting(true);
-    setSubmitStatus('idle');
-
-    try {
-      const form = e.currentTarget;
-      const response = await fetch('/', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: new URLSearchParams(new FormData(form) as any).toString()
-      });
-
-      if (response.ok) {
-        setSubmitStatus('success');
-        setFormData({
-          businessEmail: '',
-          countryCode: '+1',
-          phoneNumber: '',
-          website: '',
-          companyName: '',
-          canAfford: '',
-          currentProblem: '',
-          solveBy: ''
-        });
-        setTimeout(() => {
-          onClose();
-          setSubmitStatus('idle');
-        }, 2000);
-      } else {
-        setSubmitStatus('error');
-      }
-    } catch (error) {
-      console.error('Form submission error:', error);
-      setSubmitStatus('error');
-    } finally {
-      setIsSubmitting(false);
-    }
+    console.log('Form submitted:', formData);
+    // Handle form submission here
+    alert('Thank you! We will contact you within 48 hours.');
+    onClose();
   };
 
   return (
@@ -145,34 +111,7 @@ export function BookingModal({ isOpen, onClose }: BookingModalProps) {
 
                 {/* Right Column - Form */}
                 <div className="p-8 lg:p-12">
-                  <form 
-                    onSubmit={handleSubmit} 
-                    className="space-y-5"
-                    name="booking"
-                    method="POST"
-                    action="/"
-                    data-netlify="true"
-                    data-netlify-honeypot="bot-field"
-                  >
-                    {/* Hidden fields for Netlify */}
-                    <input type="hidden" name="form-name" value="booking" />
-                    <div className="hidden">
-                      <label>
-                        Don't fill this out if you're human: <input name="bot-field" />
-                      </label>
-                    </div>
-
-                    {submitStatus === 'success' && (
-                      <div className="p-4 bg-green-50 border border-green-200 rounded-lg text-green-800 text-sm">
-                        ✓ Thank you! We will contact you within 48 hours.
-                      </div>
-                    )}
-                    {submitStatus === 'error' && (
-                      <div className="p-4 bg-red-50 border border-red-200 rounded-lg text-red-800 text-sm">
-                        Something went wrong. Please try again or email us directly.
-                      </div>
-                    )}
-
+                  <form onSubmit={handleSubmit} className="space-y-5">
                     <div>
                       <label htmlFor="businessEmail" className="block text-sm font-medium text-gray-700 mb-2">
                         Business Email <span className="text-red-500">*</span>
@@ -311,11 +250,10 @@ export function BookingModal({ isOpen, onClose }: BookingModalProps) {
 
                     <button
                       type="submit"
-                      disabled={isSubmitting}
-                      className="w-full px-8 py-4 bg-gray-900 text-white font-semibold rounded-lg hover:bg-black transition-all shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
-                      style={{ backgroundColor: isSubmitting ? '#6b7280' : '#111827' }}
+                      className="w-full px-8 py-4 bg-gray-900 text-white font-semibold rounded-lg hover:bg-black transition-all shadow-lg hover:shadow-xl"
+                      style={{ backgroundColor: '#111827' }}
                     >
-                      {isSubmitting ? 'Submitting...' : 'Submit'}
+                      Submit
                     </button>
                   </form>
                 </div>
