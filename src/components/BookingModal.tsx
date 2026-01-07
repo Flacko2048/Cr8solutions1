@@ -1,9 +1,7 @@
 import { useState, useEffect } from 'react';
 import { X } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
-import logoImage from 'figma:asset/9c2d3c19be82e59be5ce9a5868cc83ebf06e3902.png';
-import logoFallback from 'figma:asset/83f1a68c6083c486041008246f28c8d84260cf87.png';
-import { ImageWithFallback } from './figma/ImageWithFallback';
+import { Logo } from './Logo';
 
 interface BookingModalProps {
   isOpen: boolean;
@@ -90,12 +88,7 @@ export function BookingModal({ isOpen, onClose }: BookingModalProps) {
               <div className="grid md:grid-cols-2">
                 {/* Left Column - Heading */}
                 <div className="bg-gray-50 p-8 lg:p-12 flex flex-col justify-start space-y-8">
-                  <ImageWithFallback
-                    src={logoImage}
-                    fallback={logoFallback}
-                    alt="Logo"
-                    className="w-24 h-24"
-                  />
+                  <Logo />
                   
                   <div>
                     <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 leading-tight mb-6">

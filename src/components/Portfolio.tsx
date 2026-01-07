@@ -1,9 +1,7 @@
 import { ArrowUpRight } from 'lucide-react';
 import { motion } from 'motion/react';
 import { CheckCircle, X } from 'lucide-react';
-import logoImage from 'figma:asset/9c2d3c19be82e59be5ce9a5868cc83ebf06e3902.png';
-import logoFallback from 'figma:asset/83f1a68c6083c486041008246f28c8d84260cf87.png';
-import { ImageWithFallback } from './figma/ImageWithFallback';
+import { Logo } from './Logo';
 
 const projects = [
   {
@@ -105,9 +103,7 @@ export function Portfolio({ onBookingClick }: PortfolioProps) {
           >
             <div className="text-center mb-12">
               <div className="inline-flex items-center justify-center mb-4">
-                <ImageWithFallback
-                  src={logoImage}
-                  fallback={logoFallback}
+                <Logo
                   className="h-32 w-auto object-contain"
                 />
               </div>
