@@ -122,6 +122,7 @@ export function Footer({ onBookingClick }: FooterProps) {
               onSubmit={handleNewsletterSubmit}
               name="newsletter"
               method="POST"
+              action="/"
               data-netlify="true"
               data-netlify-honeypot="bot-field"
             >

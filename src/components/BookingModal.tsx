@@ -150,6 +150,7 @@ export function BookingModal({ isOpen, onClose }: BookingModalProps) {
                     className="space-y-5"
                     name="booking"
                     method="POST"
+                    action="/"
                     data-netlify="true"
                     data-netlify-honeypot="bot-field"
                   >
