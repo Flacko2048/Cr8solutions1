@@ -1,6 +1,8 @@
 import { Facebook, Instagram, Linkedin } from 'lucide-react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import logoImage from 'figma:asset/9c2d3c19be82e59be5ce9a5868cc83ebf06e3902.png';
+import logoFallback from 'figma:asset/83f1a68c6083c486041008246f28c8d84260cf87.png';
+import { ImageWithFallback } from './figma/ImageWithFallback';
 import { useState } from 'react';
 
 interface FooterProps {
@@ -41,7 +43,12 @@ export function Footer({ onBookingClick }: FooterProps) {
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
           <div>
             <div className="flex items-center gap-2 mb-4">
-               <img src={logoImage} alt="CR8 Solutions" className="h-24 w-auto object-contain brightness-0 invert" />
+               <ImageWithFallback
+                 src={logoImage}
+                 fallback={logoFallback}
+                 alt="CR8 Solutions"
+                 className="h-24 w-auto object-contain brightness-0 invert"
+               />
             </div>
             <p className="text-gray-400 mb-4 leading-relaxed text-sm">
               Stop guessing and start growing with custom solutions tailored to your specific business problem.

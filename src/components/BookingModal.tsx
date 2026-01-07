@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import { X } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import logoImage from 'figma:asset/9c2d3c19be82e59be5ce9a5868cc83ebf06e3902.png';
+import logoFallback from 'figma:asset/83f1a68c6083c486041008246f28c8d84260cf87.png';
+import { ImageWithFallback } from './figma/ImageWithFallback';
 
 interface BookingModalProps {
   isOpen: boolean;
@@ -89,9 +91,10 @@ export function BookingModal({ isOpen, onClose }: BookingModalProps) {
                 {/* Left Column - Heading */}
                 <div className="bg-gray-50 p-8 lg:p-12 flex flex-col justify-start space-y-8">
                   <div>
-                    <img 
-                      src={logoImage} 
-                      alt="CR8 Solutions" 
+                    <ImageWithFallback
+                      src={logoImage}
+                      fallback={logoFallback}
+                      alt="CR8 Solutions"
                       className="h-32 w-auto object-contain" 
                     />
                   </div>

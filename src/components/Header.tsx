@@ -3,6 +3,8 @@ import { Menu, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import logoImage from 'figma:asset/9c2d3c19be82e59be5ce9a5868cc83ebf06e3902.png';
+import logoFallback from 'figma:asset/83f1a68c6083c486041008246f28c8d84260cf87.png';
+import { ImageWithFallback } from './figma/ImageWithFallback';
 
 interface HeaderProps {
   onBookingClick: () => void;
@@ -62,7 +64,12 @@ export function Header({ onBookingClick }: HeaderProps) {
       <nav className="container mx-auto px-4">
         <div className="flex items-center justify-between bg-[rgba(0,0,0,0)]">
           <div className="flex items-center gap-2 cursor-pointer" onClick={handleLogoClick}>
-            <img src={logoImage} alt="CR8 Solutions" className="h-28 sm:h-32 md:h-40 w-auto object-contain" />
+            <ImageWithFallback
+              src={logoImage}
+              fallback={logoFallback}
+              alt="CR8 Solutions"
+              className="h-28 sm:h-32 md:h-40 w-auto object-contain"
+            />
           </div>
 
           {/* Desktop Navigation */}
