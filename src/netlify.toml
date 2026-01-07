@@ -5,6 +5,12 @@
   command = "npm run build"
   # Directory to publish
   publish = "dist"
+  # Ignore Supabase functions directory
+  ignore = "supabase/**"
+
+[build.environment]
+  # Disable any Supabase integration
+  SUPABASE_SKIP = "true"
 
 # Redirect all requests to index.html for client-side routing (React Router)
 [[redirects]]

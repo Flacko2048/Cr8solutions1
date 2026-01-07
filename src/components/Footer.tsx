@@ -12,6 +12,8 @@ export function Footer({ onBookingClick }: FooterProps) {
   const navigate = useNavigate();
   const location = useLocation();
   const [email, setEmail] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
 
   const handleSectionClick = (sectionId: string) => {
     if (location.pathname !== '/') {
@@ -26,12 +28,35 @@ export function Footer({ onBookingClick }: FooterProps) {
     }
   };
 
-  const handleNewsletterSubmit = (e: React.FormEvent) => {
+  const handleNewsletterSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (email) {
-      console.log('Newsletter signup:', email);
-      alert(`Thank you for subscribing! We'll send updates to ${email}`);
-      setEmail('');
+    if (!email) return;
+
+    setIsSubmitting(true);
+    setSubmitStatus('idle');
+
+    try {
+      const response = await fetch('/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams({
+          'form-name': 'newsletter',
+          'email': email
+        }).toString()
+      });
+
+      if (response.ok) {
+        setSubmitStatus('success');
+        setEmail('');
+        setTimeout(() => setSubmitStatus('idle'), 3000);
+      } else {
+        setSubmitStatus('error');
+      }
+    } catch (error) {
+      console.error('Newsletter signup error:', error);
+      setSubmitStatus('error');
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -94,18 +119,45 @@ export function Footer({ onBookingClick }: FooterProps) {
             <p className="text-gray-400 mb-3 text-xs">
               Join 5,000+ business owners receiving our weekly growth tips.
             </p>
-            <div className="flex gap-2">
-              <input
-                type="email"
-                placeholder="Enter your email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="flex-1 px-3 py-2 bg-gray-900 border border-gray-800 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent outline-none text-xs"
-              />
-              <button className="px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-xs font-semibold" onClick={handleNewsletterSubmit}>
-                Join
-              </button>
-            </div>
+            <form 
+              onSubmit={handleNewsletterSubmit}
+              name="newsletter"
+              method="POST"
+              data-netlify="true"
+              data-netlify-honeypot="bot-field"
+            >
+              <input type="hidden" name="form-name" value="newsletter" />
+              <div className="hidden">
+                <label>
+                  Don't fill this out if you're human: <input name="bot-field" />
+                </label>
+              </div>
+              <div className="flex gap-2">
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="Enter your email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                  disabled={isSubmitting}
+                  className="flex-1 px-3 py-2 bg-gray-900 border border-gray-800 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent outline-none text-xs disabled:opacity-50"
+                />
+                <button 
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-xs font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {isSubmitting ? '...' : 'Join'}
+                </button>
+              </div>
+              {submitStatus === 'success' && (
+                <p className="text-green-400 text-xs mt-2">✓ Thank you for subscribing!</p>
+              )}
+              {submitStatus === 'error' && (
+                <p className="text-red-400 text-xs mt-2">Something went wrong. Please try again.</p>
+              )}
+            </form>
           </div>
         </div>
 
