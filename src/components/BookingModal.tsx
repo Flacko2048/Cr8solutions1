@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { X } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Logo } from './Logo';
+import { projectId, publicAnonKey } from '../utils/supabase/info';
 
 interface BookingModalProps {
   isOpen: boolean;
@@ -19,6 +20,8 @@ export function BookingModal({ isOpen, onClose }: BookingModalProps) {
     currentProblem: '',
     solveBy: ''
   });
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   // Close modal on escape key
   useEffect(() => {
@@ -47,12 +50,54 @@ export function BookingModal({ isOpen, onClose }: BookingModalProps) {
     });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Form submitted:', formData);
-    // Handle form submission here
-    alert('Thank you! We will contact you within 48 hours.');
-    onClose();
+    setIsSubmitting(true);
+
+    try {
+      const response = await fetch(
+        `https://${projectId}.supabase.co/functions/v1/make-server-88fc5984/submit-booking`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${publicAnonKey}`,
+          },
+          body: JSON.stringify(formData),
+        }
+      );
+
+      const result = await response.json();
+
+      if (!response.ok || !result.success) {
+        console.error('Error submitting form:', result.error);
+        alert('There was an error submitting your form. Please try again or contact us directly.');
+        setIsSubmitting(false);
+        return;
+      }
+
+      console.log('Form submitted successfully:', result.data);
+      alert('Thank you! We will contact you within 48 hours.');
+      
+      // Reset form
+      setFormData({
+        businessEmail: '',
+        countryCode: '+1',
+        phoneNumber: '',
+        website: '',
+        companyName: '',
+        canAfford: '',
+        currentProblem: '',
+        solveBy: ''
+      });
+      
+      onClose();
+    } catch (error) {
+      console.error('Error submitting booking form:', error);
+      alert('There was an error submitting your form. Please try again or contact us directly.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -246,8 +291,9 @@ export function BookingModal({ isOpen, onClose }: BookingModalProps) {
                       type="submit"
                       className="w-full px-8 py-4 bg-gray-900 text-white font-semibold rounded-lg hover:bg-black transition-all shadow-lg hover:shadow-xl"
                       style={{ backgroundColor: '#111827' }}
+                      disabled={isSubmitting}
                     >
-                      Submit
+                      {isSubmitting ? 'Submitting...' : 'Submit'}
                     </button>
                   </form>
                 </div>

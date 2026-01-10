@@ -1,7 +1,8 @@
-import { Facebook, Linkedin } from 'lucide-react';
+import { Facebook, Linkedin, Loader2 } from 'lucide-react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { Logo } from './Logo';
 import { useState } from 'react';
+import { projectId, publicAnonKey } from '../utils/supabase/info';
 
 interface FooterProps {
   onBookingClick: () => void;
@@ -12,6 +13,7 @@ export function Footer({ onBookingClick }: FooterProps) {
   const navigate = useNavigate();
   const location = useLocation();
   const [email, setEmail] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleSectionClick = (sectionId: string) => {
     if (location.pathname !== '/') {
@@ -26,12 +28,37 @@ export function Footer({ onBookingClick }: FooterProps) {
     }
   };
 
-  const handleNewsletterSubmit = (e: React.FormEvent) => {
+  const handleNewsletterSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (email) {
-      console.log('Newsletter signup:', email);
+    if (!email) return;
+
+    setIsSubmitting(true);
+    try {
+      const response = await fetch(
+        `https://${projectId}.supabase.co/functions/v1/make-server-88fc5984/subscribe-newsletter`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${publicAnonKey}`,
+          },
+          body: JSON.stringify({ email }),
+        }
+      );
+
+      const result = await response.json();
+
+      if (!response.ok || !result.success) {
+        throw new Error(result.error || 'Failed to subscribe');
+      }
+
       alert(`Thank you for subscribing! We'll send updates to ${email}`);
       setEmail('');
+    } catch (error) {
+      console.error('Newsletter subscription error:', error);
+      alert('Failed to subscribe. Please try again later.');
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -99,8 +126,12 @@ export function Footer({ onBookingClick }: FooterProps) {
                 onChange={(e) => setEmail(e.target.value)}
                 className="flex-1 px-3 py-2 bg-gray-900 border border-gray-800 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent outline-none text-xs"
               />
-              <button className="px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-xs font-semibold" onClick={handleNewsletterSubmit}>
-                Join
+              <button 
+                className="px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-xs font-semibold disabled:opacity-70 flex items-center justify-center min-w-[60px]" 
+                onClick={handleNewsletterSubmit}
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? <Loader2 className="w-3 h-3 animate-spin" /> : 'Join'}
               </button>
             </div>
           </div>
